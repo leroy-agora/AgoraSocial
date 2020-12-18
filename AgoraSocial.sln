@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgoraSocial", "AgoraSocial\AgoraSocial.csproj", "{351E4294-9A79-4FD6-B68D-5B4FDDAB3974}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgoraSocialApp", "AgoraSocialApp\AgoraSocialApp.csproj", "{ECFCAB4B-10DF-464E-9EE2-08DD8916E831}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{351E4294-9A79-4FD6-B68D-5B4FDDAB3974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{351E4294-9A79-4FD6-B68D-5B4FDDAB3974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{351E4294-9A79-4FD6-B68D-5B4FDDAB3974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{351E4294-9A79-4FD6-B68D-5B4FDDAB3974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECFCAB4B-10DF-464E-9EE2-08DD8916E831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECFCAB4B-10DF-464E-9EE2-08DD8916E831}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECFCAB4B-10DF-464E-9EE2-08DD8916E831}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECFCAB4B-10DF-464E-9EE2-08DD8916E831}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E9D327A5-CB89-44B5-B4C5-2BE2065B15F9}
+	EndGlobalSection
+EndGlobal
