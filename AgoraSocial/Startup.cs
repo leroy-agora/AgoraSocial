@@ -41,21 +41,30 @@ namespace AgoraSocial
                 c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,
-                    OpenIdConnectUrl = new Uri("https://accounts.google.com/.well-known/openid-configuration"),
+                    OpenIdConnectUrl = new Uri("https://localhost:5000"),
                     Flows = new OpenApiOAuthFlows
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            //AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
-                            //TokenUrl = new Uri("https://localhost:5000/connect/token"),
-                            AuthorizationUrl = new Uri("https://accounts.google.com/o/oauth2/v2/auth"),
-                            TokenUrl = new Uri("https://oauth2.googleapis.com/token"),
+                            AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
+                            TokenUrl = new Uri("https://localhost:5000/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
-                                {"profile", "Google Profile"}
+                                {"profile", "AgoraSocial Profile"},
+                                {"AgoraSocial", "AgoraSocial API" }
                             }
                         }
                     }
+                });
+
+                c.AddSecurityDefinition("bearerScheme", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -68,16 +77,38 @@ namespace AgoraSocial
                         , new[] { "IdPManager" } }
                 });
 
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+
+                    }
+                });
+
             });
 
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+            var identityUrl = Configuration.GetValue<string>("IdentityUrl");
 
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
-                });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = identityUrl;
+                options.RequireHttpsMetadata = false;
+                options.Audience = "AgoraSocial";
+            });
 
             services.AddCorrelationId();
         }

@@ -50,8 +50,17 @@ namespace AgoraSocialApp.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            public string UserName { get; set; }
+
+            [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            public string FirstName { get; set; }
+
+            [Required]
+            public string LastName { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -100,9 +109,14 @@ namespace AgoraSocialApp.Areas.Identity.Pages.Account
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
+                    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        UserName = email?.Split('@')[0],
+                        FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                        LastName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                        Email = email
                     };
                 }
                 return Page();
@@ -122,7 +136,7 @@ namespace AgoraSocialApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.UserName, Email = Input.Email };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)

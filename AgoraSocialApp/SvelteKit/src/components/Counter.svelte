@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {signOut} from '$components/Auth/Auth.svelte';
+
 	let count: number = 0;
 
 	const increment = () => {
@@ -23,6 +25,8 @@
 <button on:click={clear}>
 	Clicks: {count}
 </button>
+
+<button on:click={signOut}>Sign Out</button>
 
 <style lang="scss">
 	button {

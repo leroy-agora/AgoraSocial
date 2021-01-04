@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Raven.DependencyInjection;
+using Raven.Identity;
 
 namespace AgoraSocialApp
 {
@@ -38,8 +39,9 @@ namespace AgoraSocialApp
             services.AddRavenDbAsyncSession();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                //.AddRavenDbIdentityStores<ApplicationUser>();
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+             
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
@@ -61,6 +63,7 @@ namespace AgoraSocialApp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
+                //configuration.RootPath = "SvelteApp/dist";
             });
         }
 
@@ -104,11 +107,15 @@ namespace AgoraSocialApp
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+                //spa.Options.SourcePath = "ClientApp";
+                //spa.Options.SourcePath = "SvelteApp";
+                spa.Options.SourcePath = "SvelteKit";
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+
                 }
             });
         }

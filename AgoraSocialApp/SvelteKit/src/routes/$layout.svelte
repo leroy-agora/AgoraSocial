@@ -1,5 +1,10 @@
-<script>
+<script lang="ts">
+    import { AuthService } from "$components/Auth/auth.service";
+    import { setContext } from 'svelte';
     import Nav from '$components/Nav.svelte';
+
+    const authService = new AuthService();
+    setContext('authService', authService);
 </script>
 
 <main>
