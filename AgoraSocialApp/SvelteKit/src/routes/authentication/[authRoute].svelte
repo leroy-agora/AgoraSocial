@@ -13,6 +13,8 @@
 		ReturnUrlType,
 	} from "$components/Auth/auth.constants";
 
+	//import { page } from '$app/stores'
+
 	let message = new BehaviorSubject<string>(null);
 	let page;
 

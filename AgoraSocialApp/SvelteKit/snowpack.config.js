@@ -10,5 +10,8 @@ module.exports = {
 	},
 	alias: {
 		$components: './src/components'
-	}
+	},
+	packageOptions: {
+		knownEntrypoints: ['rxjs/operators'],
+	  },	
 };

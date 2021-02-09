@@ -1,9 +1,9 @@
 <script>
 	import Counter from '$components/Counter.svelte';
-	import {authenticate} from '$components/Auth/Auth.svelte';
+	//import {authenticate} from '$components/Auth/Auth.svelte';
 </script>
 
-	<h1 use:authenticate>Hello world!</h1>
+	<!-- <h1 use:authenticate>Hello world!</h1> -->
 
 	<Counter/>
 	<p>Visit the <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.</p>
