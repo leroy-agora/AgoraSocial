@@ -1,6 +1,7 @@
 {
 	"name": "agora-social",
 	"version": "0.0.1",
+  "type":"module",
 	"scripts": {
 		"dev": "svelte-kit dev --port=4200",
 		"build": "svelte-kit build",
