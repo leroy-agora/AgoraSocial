@@ -1,7 +1,7 @@
 {
 	"name": "agora-social",
 	"version": "0.0.1",
-  "type":"module",
+	"type": "module",
 	"scripts": {
 		"dev": "svelte-kit dev --port=4200",
 		"build": "svelte-kit build",
@@ -12,14 +12,15 @@
 		"@sveltejs/adapter-node": "^1.0.0-next.3",
 		"@sveltejs/kit": "^1.0.0-next.34",
 		"@sveltejs/snowpack-config": "^1.0.0-next.3",
-	  "sass": "^1.32.6",
+		"@testing-library/svelte": "^3.0.3",
+		"sass": "^1.32.6",
 		"svelte": "^3.32.1",
 		"svelte-preprocess": "^4.6.6",
 		"tslib": "^2.1.0",
-		"typescript": "^5.0.0"
+		"typescript": "^4.2.2"
 	},
-  "dependencies": {
-	  "oidc-client": "^1.11.3",
+	"dependencies": {
+		"oidc-client": "^1.11.3",
 		"rxjs": "^6.6.3"
 	}
 }

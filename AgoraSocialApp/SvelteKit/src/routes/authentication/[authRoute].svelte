@@ -23,9 +23,8 @@
 	export async function load({ page }) {
 		// SSR cannot handle OIDC
 		if (typeof window == "undefined") return;
-
+ 
 		const action = page;
-		console.log(action);
 		switch (action.path) {
 			case LoginActions.Login:
 				await login(getReturnUrl());
@@ -34,7 +33,6 @@
 				await processLoginCallback();
 				break;
 			case LoginActions.LoginFailed:
-				debugger;
 				const msg = new URLSearchParams(window.location.search).get(
 					QueryParameterNames.Message
 				);
@@ -69,10 +67,9 @@
 	}
 
 	async function login(returnUrl: string): Promise<void> {
-		debugger;
 		const state: INavigationState = { returnUrl };
 		const result = await authService.signIn(state);
-		message.next(undefined);
+    message.next(undefined);
 		switch (result.status) {
 			case AuthenticationResultStatus.Redirect:
 				break;

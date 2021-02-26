@@ -30,10 +30,12 @@ module.exports = {
 	},
 	mount: {
     'src/components': '/_components',
+    'src/stores': '/_stores',
 		'.svelte/assets': `/${process.env.SVELTE_KIT_APP_DIR}/assets`
 	},
 	alias: {
     $components: './src/components',
-		$app: './.svelte/assets/runtime/app'
+		$stores: './src/stores',
+    $app: './.svelte/assets/runtime/app'
 	}
 };

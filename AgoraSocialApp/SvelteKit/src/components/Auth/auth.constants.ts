@@ -1,5 +1,7 @@
 export const ApplicationName = 'AgoraSocialApp';
 
+export const AUTH_CONTEXT = {};
+
 export const ReturnUrlType = 'returnUrl';
 
 export const QueryParameterNames = {

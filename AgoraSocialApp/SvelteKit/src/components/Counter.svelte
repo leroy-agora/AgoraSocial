@@ -1,6 +1,18 @@
 <script lang="ts">
-	import {signOut} from '$components/Auth/Auth.svelte';
+	import Auth, {signOut} from '$components/Auth/Auth.svelte';
+  import { AUTH_CONTEXT } from '$components/Auth/auth.constants';
+  import { getContext, onMount } from 'svelte';
+  import type { AuthService } from '$components/Auth/auth.service';
+  import { session } from '$stores/session';
+  import { user } from '$stores/user';
 
+  const authService: AuthService = getContext(AUTH_CONTEXT);
+
+  onMount(() => {
+     authService.getAccessToken().subscribe(token => $session = token);
+     authService.getUser().subscribe(u => $user.name = u.name);
+  });
+ 
 	let count: number = 0;
 
 	const increment = () => {
@@ -17,7 +29,7 @@
 </script>
 
 <button on:click={increment}>
-	Clicks: {count}
+	Hello: {$user.name}
 </button>
 <button on:click={decrement}>
 	Clicks: {count}
