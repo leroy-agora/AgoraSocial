@@ -131,6 +131,7 @@ export class AuthService {
       }
 
       await this.ensureUserManagerInitialized();
+      console.log(this.userManager);
       await this.userManager.signoutPopup(this.createArguments());
       this.userSubject.next(null);
       return this.success(state);
