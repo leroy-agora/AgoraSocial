@@ -24,8 +24,4 @@
 <button on:click={login}>
   Log in with you Google Account here!
 </button>
-<<<<<<< HEAD
 </div>
-=======
-</div>
->>>>>>> 9d5f1a8 (new version of sveltekit, use vite, use tailwindcss)
