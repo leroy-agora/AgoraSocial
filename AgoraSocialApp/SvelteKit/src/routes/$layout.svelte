@@ -1,30 +1,24 @@
 <script lang="ts">
-    //import { AuthService } from "$components/Auth/auth.service";
-    import { setContext } from 'svelte';
-    import Nav from '$components/Nav.svelte';
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  
+  import './global.css';
+  import { AuthService } from '$components/Auth/auth.service';
+  import Logo from '$components/UI/Logo.svelte';
+  import { onMount } from 'svelte';
+  import { user } from '$stores/user';
+  import { isAuthed, token } from '$stores/session';
 
-    //const authService = new AuthService();
-    //setContext('authService', authService);
+  const authService = AuthService.getInstance();
 
-
-	//import { goto } from '$app/navigation';
-	//goto('/new/route');
-
+  onMount(async () => {
+    authService.getUser().subscribe(u => u && ($user = u));
+    authService.isAuthenticated().subscribe(t => $isAuthed = t);
+    authService.getAccessToken().subscribe(t => $token = t);
+  });
 </script>
-
+<header>
+  <Logo />
+</header>
 <main>
-    <Nav />
-    <slot></slot>
+  <slot />
 </main>
-
-<style lang="scss">
-	:root {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	}
-
-	main {
-		text-align: center;
-		padding: 1em;
-		margin: 0 auto;
-	}
-</style>

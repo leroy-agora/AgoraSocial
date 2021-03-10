@@ -5,8 +5,8 @@ module.exports = {
 	preprocess: sveltePreprocess({
 		defaults: {
 			script: 'typescript',
-			style: 'scss'
-		},
+			style: 'postcss'
+		}
 	}),
 	kit: {
 		// By default, `npm run build` will create a standard Node app.

@@ -1,4 +1,4 @@
-import { User, UserManager, WebStorageStateStore } from 'oidc-client';
+import { User, UserManager } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 
@@ -43,7 +43,7 @@ export class AuthService {
 
   private static _instance: AuthService;
 
-  private construction() {};
+  private construction() {}
 
   public static getInstance(): AuthService {
       return AuthService._instance || (AuthService._instance = new AuthService());
@@ -102,7 +102,9 @@ export class AuthService {
 
         // PopUps might be blocked by the user, fallback to redirect
         try {
-          await this.userManager.signinRedirect(this.createArguments(state));
+          const signInArgs = this.createArguments(state);
+          signInArgs.acr_values = 'ipd:Google';
+          await this.userManager.signinRedirect(signInArgs);
           return this.redirect();
         } catch (redirectError) {
           console.log('Redirect authentication error: ', redirectError);
@@ -131,6 +133,7 @@ export class AuthService {
       }
 
       await this.ensureUserManagerInitialized();
+      console.log(this.userManager);
       await this.userManager.signoutPopup(this.createArguments());
       this.userSubject.next(null);
       return this.success(state);
@@ -187,6 +190,7 @@ export class AuthService {
     const settings: any = await response.json();
     settings.automaticSilentRenew = true;
     settings.includeIdTokenInSilentRenew = true;
+
     this.userManager = new UserManager(settings);
 
     this.userManager.events.addUserSignedOut(async () => {

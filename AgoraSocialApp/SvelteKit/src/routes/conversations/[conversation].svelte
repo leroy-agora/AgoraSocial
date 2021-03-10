@@ -3,10 +3,9 @@
   import Login from '$components/Auth/Login.svelte';
   import { isAuthed } from '$stores/session';
 </script>
-{#if $isAuthed !== null}
-  {#if $isAuthed}
-    <Home />
-  {:else}
-    <Login />
-  {/if}
+
+{#if $isAuthed}
+  <Home />
+{:else}
+  <Login  />
 {/if}

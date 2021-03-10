@@ -1,12 +1,11 @@
 <script context="module" lang="ts">
     //import { UserManager, User } from "oidc-client";
-    import { ApplicationPaths } from "./auth.constants";
-    import { AuthService } from "./auth.service";
-    import type { ReturnUrlType } from "./auth.constants";
+    import { ApplicationPaths } from './auth.constants';
+    import { AuthService } from './auth.service';
+    import type { ReturnUrlType } from './auth.constants';
 
 
     const authService: AuthService = AuthService.getInstance();
-    const ApplicationName = `AgoraSocialApp`;
 
     export enum Roles {
         Anonymous = 0,
@@ -18,12 +17,12 @@
         node: HTMLElement,
         role: Roles = Roles.Anonymous
     ) {
-        var signin = await authService.signIn(getReturnUrl());
+        const signin = await authService.signIn(getReturnUrl());
         console.log('signin', signin);
     }
 
     export async function signOut() {
-        var signout = await authService.signOut({returnUrl: '/'});
+        const signout = await authService.signOut({returnUrl: '/'});
         console.log('signout', signout);
     }
 
@@ -40,7 +39,7 @@
         ) {
             // This is an extra check to prevent open redirects.
             throw new Error(
-                "Invalid return url. The return url needs to have the same origin as the current page."
+                'Invalid return url. The return url needs to have the same origin as the current page.'
             );
         }
         return (
