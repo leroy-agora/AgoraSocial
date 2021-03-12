@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		"moduleResolution": "node",
+    "module": "esnext",
 		"target": "es2017",
 		/**
 			svelte-preprocess cannot figure out whether you have a value or a type, so tell TypeScript
@@ -20,6 +21,7 @@
 		"paths": {
 			"$components/*": ["./src/components/*"],
       "$stores/*": ["./src/stores/*"],
+      "$common/*": ["./src/common/*"],
 			"$app/*": ["./.svelte/assets/runtime/app/*"]
 		}
 	},

@@ -9,9 +9,9 @@
 		"lint": "eslint src/**"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-node": "^1.0.0-next.5",
+		"@sveltejs/adapter-node": "^1.0.0-next.6",
 		"@sveltejs/eslint-config": "github:sveltejs/eslint-config#v5.6.0",
-		"@sveltejs/kit": "^1.0.0-next.40",
+		"@sveltejs/kit": "^1.0.0-next.45",
 		"@testing-library/svelte": "^3.0.3",
 		"@typescript-eslint/eslint-plugin": "^4.16.1",
 		"@typescript-eslint/parser": "^4.16.1",

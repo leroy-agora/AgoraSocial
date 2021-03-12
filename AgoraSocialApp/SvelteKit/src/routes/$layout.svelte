@@ -11,9 +11,9 @@
   const authService = AuthService.getInstance();
 
   onMount(async () => {
+    authService.getAccessToken().subscribe(t => $token = t);
     authService.getUser().subscribe(u => u && ($user = u));
     authService.isAuthenticated().subscribe(t => $isAuthed = t);
-    authService.getAccessToken().subscribe(t => $token = t);
   });
 </script>
 <header>

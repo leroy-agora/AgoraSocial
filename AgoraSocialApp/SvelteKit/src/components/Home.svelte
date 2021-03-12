@@ -1,17 +1,14 @@
 <script lang="ts">
   import { conversations } from '$stores/conversations';
   import { user } from '$stores/user';
-  import { token } from '$stores/session';
+  import { get } from '$common/api';
   import Logo from './UI/Logo.svelte';
   import { AuthService } from '$components/Auth/auth.service';
 
   const authService = AuthService.getInstance();
 	const forecast = async () => {
-    const headers = new Headers();
-    headers.append('Authorization', `Bearer ${$token}`);
-		const res = await fetch('/WeatherForecast', { headers });
-    const weatherData = await res.json();
-    $conversations.data = weatherData.map(w => w.summary);
+		const weather= await get('/WeatherForecast');
+    $conversations.data = weather.map(w => w.summary);
 	};
 </script>
 <div class="main-wrapper">
