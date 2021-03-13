@@ -20,7 +20,7 @@
     Sign Out
     </button>
   </nav>
-  <button on:click={forecast}>
+  <button class="btn" on:click={forecast}>
     Hello: {$user.name}
   </button>
   <ul>

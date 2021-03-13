@@ -9,7 +9,6 @@
     const authService = AuthService.getInstance();
     const isAuthed = await authService.isAuthenticated().pipe(take(1)).toPromise();
 
-    console.log(isAuthed);
     if (isAuthed) {
       return {
         props: {

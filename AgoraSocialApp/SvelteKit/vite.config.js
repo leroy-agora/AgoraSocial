@@ -1,7 +1,6 @@
 import { resolve } from 'path';
 
 export default {
-  logLevel: 'error',
   resolve: {
     alias: {
       $components: resolve('src/components'),

@@ -1,7 +1,7 @@
 <script lang="ts">
   /* eslint-disable @typescript-eslint/no-unused-vars */
   
-  import './global.css';
+  import '$common/global.css';
   import { AuthService } from '$components/Auth/auth.service';
   import Logo from '$components/UI/Logo.svelte';
   import { onMount } from 'svelte';
