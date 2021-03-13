@@ -4,7 +4,8 @@
   import { AuthService } from '$components/Auth/auth.service';
 
   const authService = AuthService.getInstance();
-	const login = () => authService.signIn({});
+  // TODO remove hardcoded redirectUrl
+	const login = () => authService.signIn({ redirectUrl: '/' });
 </script>
 <div class="container sm:mx-auto">
 <h1>Welcome to Agora!</h1>

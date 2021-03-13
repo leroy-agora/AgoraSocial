@@ -102,9 +102,7 @@ export class AuthService {
 
         // PopUps might be blocked by the user, fallback to redirect
         try {
-          const signInArgs = this.createArguments(state);
-          signInArgs.acr_values = 'ipd:Google';
-          await this.userManager.signinRedirect(signInArgs);
+          await this.userManager.signinRedirect(this.createArguments(state));
           return this.redirect();
         } catch (redirectError) {
           console.log('Redirect authentication error: ', redirectError);
