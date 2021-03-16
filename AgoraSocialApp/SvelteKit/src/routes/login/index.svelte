@@ -1,11 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores';
-
-  import { AuthService } from '$components/Auth/auth.service';
+  import { AuthService } from '$lib/Auth/auth.service';
 
   const authService = AuthService.getInstance();
   // TODO remove hardcoded redirectUrl
-	const login = () => authService.signIn({ redirectUrl: '/' });
+	const login = () => authService.signIn({ redirectUrl: '/app' });
 </script>
 <div class="container sm:mx-auto">
 <h1>Welcome to Agora!</h1>

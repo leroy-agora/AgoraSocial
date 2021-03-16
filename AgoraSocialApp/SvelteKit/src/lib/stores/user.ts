@@ -1,4 +1,4 @@
-import type { IUser } from '$components/Auth/auth.service';
+import type { IUser } from '$lib/Auth/auth.service';
 import { derived, writable } from 'svelte/store';
 import { session, page } from '$app/stores';
 

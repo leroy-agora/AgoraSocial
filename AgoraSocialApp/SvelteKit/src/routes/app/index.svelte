@@ -1,32 +1,22 @@
 <script>
-  import { conversations } from '$stores/conversations';
+  import { conversations } from '$lib/stores/conversations';
   import { session } from '$app/stores';
-  import { user } from '$stores/user';
-  import { get } from '$common/api';
-  import { AuthService } from '$components/Auth/auth.service';
+  import { user } from '$lib/stores/user';
+  import { AgoraWeather } from '$lib/constants/agora-api';
+  import { get } from '$lib/api';
   import { onMount } from 'svelte';
 
   let forecast;
-  let signout;
 
   onMount(() => {
-    const authService = AuthService.getInstance();
-    signout = () => authService.signOut({});
     forecast = async () => {
-      const weather= await get('/WeatherForecast', $session.token);
+      const weather= await get(AgoraWeather, $session.token);
       $conversations.data = weather.map(w => w.summary);
     };
   });
   
 </script>
 <div class="main-wrapper">
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <button on:click={signout}>
-    Sign Out
-    </button>
-  </nav>
   <button class="btn" on:click={forecast}>
     Hello: {$user.name}
   </button>

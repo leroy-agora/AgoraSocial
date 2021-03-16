@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
     //import { UserManager, User } from "oidc-client";
-    import { ApplicationPaths } from './auth.constants';
+    import { ApplicationPaths } from '$lib/constants/auth';
     import { AuthService } from './auth.service';
-    import type { ReturnUrlType } from './auth.constants';
+    import type { ReturnUrlType } from '$lib/constants/auth';
 
 
     const authService: AuthService = AuthService.getInstance();

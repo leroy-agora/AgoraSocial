@@ -2,7 +2,7 @@
 	import {
 		AuthService,
 		AuthenticationResultStatus
-	} from '$components/Auth/auth.service';
+	} from '$lib/Auth/auth.service';
 	import { BehaviorSubject } from 'rxjs';
 	import { take } from 'rxjs/operators';
 	import {
@@ -11,7 +11,7 @@
 		QueryParameterNames,
 		ApplicationPaths,
 		ReturnUrlType
-	} from '$components/Auth/auth.constants';
+	} from '$lib/constants/auth';
 
 	const message = new BehaviorSubject<string>(null);
 

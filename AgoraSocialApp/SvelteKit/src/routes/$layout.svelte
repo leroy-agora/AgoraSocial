@@ -1,5 +1,5 @@
 <script context="module">
-  import { AuthService } from '$components/Auth/auth.service';
+  import { AuthService } from '$lib/Auth/auth.service';
 
   export async function load({ session }) {
     if (typeof window == 'undefined') return;
@@ -16,21 +16,22 @@
   }
 </script>
 
-<script lang="ts">
-  import '$common/global.css';
+<script>
+  import '$lib/global.css';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
-  import { needToLogin } from '$stores/user';
+  import Nav from '$lib/components/Nav.svelte';
+  import { needToLogin } from '$lib/stores/user';
 
   const notError = true;
-
+  const authService = AuthService.getInstance();
   onMount(() => {
-    needToLogin.subscribe(gotoLogin => gotoLogin ?
-      goto('/login') : null);
+    needToLogin.subscribe(gotoLogin => gotoLogin ? goto('/login') : null); 
   });
 </script>
+
 <header>
-  <img width="100px" src="/images/logo.png" alt="Agora Logo" />
+  <Nav signout={() => authService.signOut({})} authenticated={!$needToLogin} />
 </header>
 <main>
 {#if ($needToLogin || $needToLogin === null) && notError}
