@@ -19,6 +19,7 @@
 <script>
   import '$lib/global.css';
   import { goto } from '$app/navigation';
+  import { session } from '$app/stores';
   import { onMount } from 'svelte';
   import Nav from '$lib/components/Nav.svelte';
   import { needToLogin } from '$lib/stores/user';
@@ -31,9 +32,9 @@
 </script>
 
 <header>
-  <Nav signout={() => authService.signOut({})} authenticated={!$needToLogin} />
+  <Nav signout={() => authService.signOut({})} authenticated={$session.authenticated} />
 </header>
-<main>
+<main class="container mx-auto">
 {#if ($needToLogin || $needToLogin === null) && notError}
   <div>Loading</div>
 {:else}
