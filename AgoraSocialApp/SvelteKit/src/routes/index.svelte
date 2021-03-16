@@ -1,29 +1,19 @@
 <script context="module">
   import { AuthService } from '$components/Auth/auth.service';
-  import { goto } from '$app/navigation';
   import { take } from 'rxjs/operators';
+  import { goto } from '$app/navigation';
+import Auth from '$components/Auth/Auth.svelte';
 
   export async function load() {
     if (typeof window == 'undefined') return;
 
     const authService = AuthService.getInstance();
-    const isAuthed = await authService.isAuthenticated().pipe(take(1)).toPromise();
 
+    const isAuthed = await authService.isAuthenticated().pipe(take(1)).toPromise();
     if (isAuthed) {
-      return {
-        props: {
-          isAuthed
-        }
-      };
+      goto('/app');
+    } else {
+      goto('/login');
     }
-    // change when "Error: TODO client-side redirects" is implemented in sveltekit
-    goto('/login');
   }
 </script>
-<script>
-  import Home from '$components/Home.svelte';
-  export let isAuthed;
-</script>
-{#if isAuthed}
-<Home />
-{/if}

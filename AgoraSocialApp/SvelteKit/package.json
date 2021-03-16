@@ -9,9 +9,9 @@
 		"lint": "eslint src/**"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-node": "^1.0.0-next.6",
+		"@sveltejs/adapter-node": "^1.0.0-next.7",
 		"@sveltejs/eslint-config": "github:sveltejs/eslint-config#v5.6.0",
-		"@sveltejs/kit": "^1.0.0-next.45",
+		"@sveltejs/kit": "^1.0.0-next.49",
 		"@testing-library/svelte": "^3.0.3",
 		"@typescript-eslint/eslint-plugin": "^4.16.1",
 		"@typescript-eslint/parser": "^4.16.1",
@@ -25,7 +25,7 @@
 		"postcss-load-config": "^3.0.1",
 		"rxjs": "^6.6.3",
 		"sass": "^1.32.6",
-		"svelte": "^3.32.1",
+		"svelte": "^3.35.0",
 		"svelte-preprocess": "^4.6.9",
 		"tailwindcss": "^2.0.3",
 		"tslib": "^2.1.0",

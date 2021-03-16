@@ -1,21 +1,16 @@
-import { token } from '$stores/session';
-
 interface SendProps {
   method:'GET' | 'POST' | 'DELETE' | 'PUT' ;
   path: string;
   data?: any;
+  token?: string
 }
 
-let bearerToken;
-
-token.subscribe(tk => bearerToken = tk);
-
-const send = async ({ method, path, data }: SendProps) => {
+const agoraApi = async ({ method = 'GET', path, data, token }: SendProps) => {
 
   const headers = new Headers();
 
   if (token) {
-    headers.append('Authorization', `Bearer ${bearerToken}`);
+    headers.append('Authorization', `Bearer ${token}`);
   }
 
   try {
@@ -28,4 +23,5 @@ const send = async ({ method, path, data }: SendProps) => {
   }
 };
 
-export const get = async (path: string) => send({ method: 'GET', path });
+export const get = async (path: string, token?: string) =>
+  agoraApi({ method: 'GET', path, token });

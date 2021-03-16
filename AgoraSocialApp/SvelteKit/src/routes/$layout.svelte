@@ -1,24 +1,41 @@
-<script lang="ts">
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  
-  import '$common/global.css';
+<script context="module">
   import { AuthService } from '$components/Auth/auth.service';
-  import Logo from '$components/UI/Logo.svelte';
+
+  export async function load({ session }) {
+    if (typeof window == 'undefined') return;
+
+    const authService = AuthService.getInstance();
+    
+    authService.isAuthenticated().subscribe(isAuthed => {
+      session.authenticated = isAuthed;
+    });
+
+    authService.getAccessToken().subscribe(t => {
+      session.token = t;
+    });
+  }
+</script>
+
+<script lang="ts">
+  import '$common/global.css';
+  import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
-  import { user } from '$stores/user';
-  import { isAuthed, token } from '$stores/session';
+  import { needToLogin } from '$stores/user';
 
-  const authService = AuthService.getInstance();
+  const notError = true;
 
-  onMount(async () => {
-    authService.getAccessToken().subscribe(t => $token = t);
-    authService.getUser().subscribe(u => u && ($user = u));
-    authService.isAuthenticated().subscribe(t => $isAuthed = t);
+  onMount(() => {
+    needToLogin.subscribe(gotoLogin => gotoLogin ?
+      goto('/login') : null);
   });
 </script>
 <header>
-  <Logo />
+  <img width="100px" src="/images/logo.png" alt="Agora Logo" />
 </header>
 <main>
+{#if ($needToLogin || $needToLogin === null) && notError}
+  <div>Loading</div>
+{:else}
   <slot />
+{/if}
 </main>

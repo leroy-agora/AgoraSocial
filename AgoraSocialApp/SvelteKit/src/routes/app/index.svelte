@@ -1,22 +1,29 @@
-<script lang="ts">
+<script>
   import { conversations } from '$stores/conversations';
+  import { session } from '$app/stores';
   import { user } from '$stores/user';
   import { get } from '$common/api';
-  import Logo from './UI/Logo.svelte';
   import { AuthService } from '$components/Auth/auth.service';
+  import { onMount } from 'svelte';
 
-  const authService = AuthService.getInstance();
-	const forecast = async () => {
-		const weather= await get('/WeatherForecast');
-    $conversations.data = weather.map(w => w.summary);
-	};
+  let forecast;
+  let signout;
+
+  onMount(() => {
+    const authService = AuthService.getInstance();
+    signout = () => authService.signOut({});
+    forecast = async () => {
+      const weather= await get('/WeatherForecast', $session.token);
+      $conversations.data = weather.map(w => w.summary);
+    };
+  });
+  
 </script>
 <div class="main-wrapper">
-  <Logo width={75} />
   <nav>
     <a href="/">Home</a>
     <a href="/about">About</a>
-    <button on:click={() => authService.signOut({})}>
+    <button on:click={signout}>
     Sign Out
     </button>
   </nav>

@@ -1,6 +1,22 @@
 import type { IUser } from '$components/Auth/auth.service';
-import { writable, Writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
+import { session, page } from '$app/stores';
 
-export const user: Writable<IUser> = writable({
+export const needToLogin = derived(
+  [session, page],
+  ([$s, $p]) => {
+    const isApp = $p.path.startsWith('/app');
+    const authed = $s.authenticated;
+    
+    if (authed === null) return null;
+
+    if (isApp && authed === false) {
+      return true;
+    }
+    return false;
+  }
+);
+
+export const user= writable<IUser>({
   name: 'Anonymous'
 });
