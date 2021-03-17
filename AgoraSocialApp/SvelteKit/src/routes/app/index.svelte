@@ -15,17 +15,12 @@
     };
   });
   
-</script>
-<div class="main-wrapper">
-  <button class="btn" on:click={forecast}>
-    Hello: {$user.name}
+</script>>
+<button class="btn" on:click={forecast}>
+  Hello: {$user.name}
   </button>
   <ul>
     {#each $conversations.data as conversation}
       <li>{conversation}</li>
     {/each}
   </ul>
-  <div class="input-area">
-    <input type="text" />
-  </div>
-</div>

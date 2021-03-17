@@ -31,13 +31,13 @@
   });
 </script>
 
-<header>
-  <Nav signout={() => authService.signOut({})} authenticated={$session.authenticated} />
-</header>
-<main class="container mx-auto">
+<Nav signout={() => authService.signOut({})} authenticated={$session.authenticated} />
 {#if ($needToLogin || $needToLogin === null) && notError}
+<div class="container mx-auto p-12 flex items-center justify-center h-screen">
   <div>Loading</div>
+</div>
 {:else}
+<main class="container mx-auto p-12">
   <slot />
-{/if}
 </main>
+{/if}
