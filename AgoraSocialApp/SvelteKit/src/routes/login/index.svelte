@@ -19,7 +19,7 @@
     <button class="btn" on:click={login}>
       Sign in with Google Account
     </button>
-    <h4 class="font-light">
+    <h4>
       Already sign up?
     </h4>
     <button class="link" on:click={login}>
