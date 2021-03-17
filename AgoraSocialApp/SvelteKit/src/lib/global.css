@@ -6,3 +6,11 @@
 #svelte {
   display: block;
 }
+
+.btn {
+  @apply bg-purple-600 text-white rounded py-2 px-4;
+}
+
+.link {
+  @apply underline text-purple-500;
+}

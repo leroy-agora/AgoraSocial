@@ -15,12 +15,12 @@
     };
   });
   
-</script>>
+</script>
 <button class="btn" on:click={forecast}>
   Hello: {$user.name}
-  </button>
-  <ul>
-    {#each $conversations.data as conversation}
-      <li>{conversation}</li>
-    {/each}
-  </ul>
+</button>
+<ul>
+  {#each $conversations.data as conversation}
+    <li>{conversation}</li>
+  {/each}
+</ul>

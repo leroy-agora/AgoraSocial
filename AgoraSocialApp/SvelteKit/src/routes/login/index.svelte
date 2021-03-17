@@ -10,19 +10,19 @@
   <div>
     <h3>Welcome to Agora!</h3>
     <p>
-      Your subscription with <b>{$page.params.conversation}</b> will give you access to a community<br />
+      Your subscription with <i>{$page.params.conversation}</i> will give you access to a community<br />
       of fellow subscribers and a platform to explore more Creator content across the Agora.
     </p>
     <p>
       Sign up with your Google Account to join the conversation!
     </p>
-    <button on:click={login}>
+    <button class="btn" on:click={login}>
       Sign in with Google Account
     </button>
-    <h3>
+    <h4 class="font-light">
       Already sign up?
-    </h3>
-    <button on:click={login}>
+    </h4>
+    <button class="link" on:click={login}>
       Log in with you Google Account here!
     </button>
   </div>
