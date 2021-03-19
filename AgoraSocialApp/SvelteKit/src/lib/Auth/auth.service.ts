@@ -74,7 +74,7 @@ export class AuthService {
   //    Pop-Up blocker or the user has disabled PopUps.
   // 3) If the two methods above fail, we redirect the browser to the IdP to perform a traditional
   //    redirect flow.
-  public async signIn(state: any): Promise<IAuthenticationResult> {
+  public async signIn(state: Object): Promise<IAuthenticationResult> {
     await this.ensureUserManagerInitialized();
     let user: User = null;
     try {
@@ -160,7 +160,14 @@ export class AuthService {
   }
 
   private createArguments(state?: any): any {
-    return { useReplaceToNavigate: true, data: state };
+    const retObj: any = {
+      useReplaceToNavigate: true, 
+      data: state
+    };
+    if (state?.acr_values) {
+      retObj.acr_values = state.acr_values;
+    }
+    return retObj;
   }
 
   private error(message: string): IAuthenticationResult {
@@ -188,7 +195,7 @@ export class AuthService {
     const settings: any = await response.json();
     settings.automaticSilentRenew = true;
     settings.includeIdTokenInSilentRenew = true;
-
+    console.log(settings);
     this.userManager = new UserManager(settings);
 
     this.userManager.events.addUserSignedOut(async () => {

@@ -4,7 +4,7 @@
 
   const authService = AuthService.getInstance();
   // TODO remove hardcoded redirectUrl
-	const login = () => authService.signIn({ redirectUrl: '/app' });
+	const login = () => authService.signIn({ redirectUrl: '/app', acr_values: 'idp:Google' });
 </script>
 <div class="absolute top-0 left-0 right-0 bottom-0 container mx-auto flex items-center justify-center prose prose-sm text-center">
   <div>
