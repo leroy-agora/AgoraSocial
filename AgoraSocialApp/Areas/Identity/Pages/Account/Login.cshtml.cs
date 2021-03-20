@@ -59,24 +59,36 @@ namespace AgoraSocialApp.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
 
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
 
-            if (!string.IsNullOrEmpty(ErrorMessage))
+            if (context.IdP is not null)
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+                var properties = _signInManager.ConfigureExternalAuthenticationProperties(context.IdP, redirectUrl);
+                return new ChallengeResult(context.IdP, properties);
             }
+            else
+            {
 
-            returnUrl ??= Url.Content("~/");
+                if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    ModelState.AddModelError(string.Empty, ErrorMessage);
+                }
 
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+                returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                // Clear the existing external cookie to ensure a clean login process
+                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ReturnUrl = returnUrl;
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+                ReturnUrl = returnUrl;
+
+                return Page();
+            }  
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

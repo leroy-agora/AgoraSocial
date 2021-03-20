@@ -195,7 +195,7 @@ export class AuthService {
     const settings: any = await response.json();
     settings.automaticSilentRenew = true;
     settings.includeIdTokenInSilentRenew = true;
-    console.log(settings);
+
     this.userManager = new UserManager(settings);
 
     this.userManager.events.addUserSignedOut(async () => {
