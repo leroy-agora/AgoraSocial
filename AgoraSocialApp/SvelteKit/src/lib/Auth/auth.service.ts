@@ -164,8 +164,8 @@ export class AuthService {
       useReplaceToNavigate: true, 
       data: state
     };
-    if (state?.acr_values) {
-      retObj.acr_values = state.acr_values;
+    if (state?.provider) {
+      retObj.acr_values = `idp:${state.provider}`;
     }
     return retObj;
   }

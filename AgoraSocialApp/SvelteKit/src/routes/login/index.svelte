@@ -1,10 +1,11 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { AuthService } from '$lib/Auth/auth.service';
+  import * as providers from '$lib/constants/providers';
 
   const authService = AuthService.getInstance();
   // TODO remove hardcoded redirectUrl
-	const login = () => authService.signIn({ redirectUrl: '/app', acr_values: 'idp:Google' });
+	const login = () => authService.signIn({ redirectUrl: '/app', provider: providers.GOOGLE });
 </script>
 <div class="absolute top-0 left-0 right-0 bottom-0 container mx-auto flex items-center justify-center prose prose-sm text-center">
   <div>
