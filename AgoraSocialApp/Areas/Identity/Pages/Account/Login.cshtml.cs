@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using IdentityServer4.Services;
 
 namespace AgoraSocialApp.Areas.Identity.Pages.Account
 {
@@ -21,14 +22,17 @@ namespace AgoraSocialApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IIdentityServerInteractionService _interaction;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
+            IIdentityServerInteractionService interaction,
             UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger;
+            _logger = logger;//s
+            _interaction = interaction;
         }
 
         [BindProperty]
@@ -55,21 +59,36 @@ namespace AgoraSocialApp.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            if (!string.IsNullOrEmpty(ErrorMessage))
+
+            var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+
+            if (context.IdP is not null)
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+                var properties = _signInManager.ConfigureExternalAuthenticationProperties(context.IdP, redirectUrl);
+                return new ChallengeResult(context.IdP, properties);
             }
+            else
+            {
 
-            returnUrl ??= Url.Content("~/");
+                if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    ModelState.AddModelError(string.Empty, ErrorMessage);
+                }
 
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+                returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                // Clear the existing external cookie to ensure a clean login process
+                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ReturnUrl = returnUrl;
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+                ReturnUrl = returnUrl;
+
+                return Page();
+            }  
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

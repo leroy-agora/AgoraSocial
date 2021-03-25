@@ -1,31 +1,29 @@
 <script context="module" lang="ts">
 	import {
 		AuthService,
-		AuthenticationResultStatus,
-	} from "$components/Auth/auth.service";
-	import { BehaviorSubject } from "rxjs";
+		AuthenticationResultStatus
+	} from '$lib/auth.service';
+  import Loading from '$lib/components/Loading.svelte';
+	import { BehaviorSubject } from 'rxjs';
 	import { take } from 'rxjs/operators';
 	import {
 		LoginActions,
 		LogoutActions,
 		QueryParameterNames,
 		ApplicationPaths,
-		ReturnUrlType,
-	} from "$components/Auth/auth.constants";
+		ReturnUrlType
+	} from '$lib/constants/auth';
 
-	//import { page } from '$app/stores'
-
-	let message = new BehaviorSubject<string>(null);
-	let page;
+	const message = new BehaviorSubject<string>(null);
 
 	const authService = AuthService.getInstance();
 
 	export async function load({ page }) {
 		// SSR cannot handle OIDC
-		if (typeof window == "undefined") return;
-
+		if (typeof window == 'undefined') return;
+    let msg;
 		const action = page;
-		console.log(action);
+
 		switch (action.path) {
 			case LoginActions.Login:
 				await login(getReturnUrl());
@@ -34,8 +32,7 @@
 				await processLoginCallback();
 				break;
 			case LoginActions.LoginFailed:
-				debugger;
-				const msg = new URLSearchParams(window.location.search).get(
+				msg = new URLSearchParams(window.location.search).get(
 					QueryParameterNames.Message
 				);
 				message.next(msg);
@@ -47,12 +44,12 @@
 				redirectToRegister();
 				break;
 			case LogoutActions.Logout:
-				if (!!window.history.state.local) {
+				if (window.history.state.local) {
 					await logout(getReturnUrl());
 				} else {
 					// This prevents regular links to <app>/authentication/logout from triggering a logout
 					message.next(
-						"The logout was not initiated from within the page."
+						'The logout was not initiated from within the page.'
 					);
 				}
 				break;
@@ -60,7 +57,7 @@
 				await processLogoutCallback();
 				break;
 			case LogoutActions.LoggedOut:
-				message.next("You successfully logged out!");
+				message.next('You successfully logged out!');
 				break;
 
 			default:
@@ -69,10 +66,9 @@
 	}
 
 	async function login(returnUrl: string): Promise<void> {
-		debugger;
 		const state: INavigationState = { returnUrl };
 		const result = await authService.signIn(state);
-		message.next(undefined);
+    message.next(undefined);
 		switch (result.status) {
 			case AuthenticationResultStatus.Redirect:
 				break;
@@ -97,7 +93,7 @@
 		switch (result.status) {
 			case AuthenticationResultStatus.Redirect:
 				// There should not be any redirects as completeSignIn never redirects.
-				throw new Error("Should not redirect.");
+				throw new Error('Should not redirect.');
 			case AuthenticationResultStatus.Success:
 				await navigateToReturnUrl(getReturnUrl(result.state));
 				break;
@@ -110,7 +106,7 @@
 	function redirectToRegister(): any {
 		redirectToApiAuthorizationPath(
 			`${ApplicationPaths.IdentityRegisterPath}?returnUrl=${encodeURI(
-				"/" + ApplicationPaths.Login
+				'/' + ApplicationPaths.Login
 			)}`
 		);
 	}
@@ -154,10 +150,10 @@
 					message.next(result.message);
 					break;
 				default:
-					throw new Error("Invalid authentication result status.");
+					throw new Error('Invalid authentication result status.');
 			}
 		} else {
-			message.next("You successfully logged out!");
+			message.next('You successfully logged out!');
 		}
 	}
 
@@ -168,7 +164,7 @@
 			case AuthenticationResultStatus.Redirect:
 				// There should not be any redirects as the only time completeAuthentication finishes
 				// is when we are doing a redirect sign in flow.
-				throw new Error("Should not redirect.");
+				throw new Error('Should not redirect.');
 			case AuthenticationResultStatus.Success:
 				await navigateToReturnUrl(getReturnUrl(result.state));
 				break;
@@ -176,13 +172,13 @@
 				message.next(result.message);
 				break;
 			default:
-				throw new Error("Invalid authentication result status.");
+				throw new Error('Invalid authentication result status.');
 		}
 	}
 
 	function getReturnUrl(state?: INavigationState): string {
 		const fromQuery = new URLSearchParams(window.location.search).get(
-			"returnUrl"
+			'returnUrl'
 		);
 		// If the url is coming from the query string, check that is either
 		// a relative url or an absolute url
@@ -195,7 +191,7 @@
 		) {
 			// This is an extra check to prevent open redirects.
 			throw new Error(
-				"Invalid return url. The return url needs to have the same origin as the current page."
+				'Invalid return url. The return url needs to have the same origin as the current page.'
 			);
 		}
 		return (
@@ -209,5 +205,8 @@
 		[ReturnUrlType]: string;
 	}
 </script>
-
-{message.getValue()}
+{#if message.getValue()}
+  {message.getValue()}
+{:else}
+  <Loading />
+{/if}

@@ -45,6 +45,7 @@ namespace AgoraSocialApp
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
+
             services.AddAuthentication()
                 .AddIdentityServerJwt()
                 .AddGoogle(o =>
@@ -52,13 +53,13 @@ namespace AgoraSocialApp
                     //o.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
                     IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
-
                     o.ClientId = googleAuthNSection["ClientId"];
                     o.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
