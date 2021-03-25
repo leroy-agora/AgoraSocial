@@ -18,17 +18,13 @@
 
 <script>
   import '$lib/global.css';
-  import Nav from '$lib/components/Nav.svelte';
+  import { session } from '$app/stores';
   import Loading from '$lib/components/Loading.svelte';
-  import { needToLogin } from '$lib/stores/user';
 
   const notError = true;
 </script>
-<Nav />
-{#if ($needToLogin || $needToLogin === null) && notError}
-  <Loading />
-{:else}
-<main class="container mx-auto p-12">
+{#if $session.authenticated !== null || !notError}
   <slot />
-</main>
+{:else}
+  <Loading />
 {/if}
