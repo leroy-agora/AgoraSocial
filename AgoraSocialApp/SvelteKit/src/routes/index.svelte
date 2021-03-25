@@ -1,37 +1,18 @@
-<script>
-	import Counter from '$components/Counter.svelte';
-	//import {authenticate} from '$components/Auth/Auth.svelte';
+<script context="module">
+  import { AuthService } from '$lib/auth.service';
+  import { take } from 'rxjs/operators';
+  import { goto } from '$app/navigation';
+
+  export async function load() {
+    if (typeof window == 'undefined') return;
+
+    const authService = AuthService.getInstance();
+
+    const isAuthed = await authService.isAuthenticated().pipe(take(1)).toPromise();
+    if (isAuthed) {
+      goto('/app');
+    } else {
+      goto('/login');
+    }
+  }
 </script>
-
-	<!-- <h1 use:authenticate>Hello world!</h1> -->
-
-	<Counter/>
-	<p>Visit the <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.</p>
-
-<style lang="scss">
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4rem;
-		font-weight: 100;
-		line-height: 1.1;
-		margin: 4rem auto;
-		max-width: 14rem;
-	}
-
-	p {
-		max-width: 14rem;
-		margin: 2rem auto;
-		line-height: 1.35;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			max-width: none;
-		}
-
-		p {
-			max-width: none;
-		}
-	}
-</style>

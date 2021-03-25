@@ -1,30 +1,34 @@
-<script lang="ts">
-    //import { AuthService } from "$components/Auth/auth.service";
-    import { setContext } from 'svelte';
-    import Nav from '$components/Nav.svelte';
+<script context="module">
+  import { AuthService } from '$lib/auth.service';
 
-    //const authService = new AuthService();
-    //setContext('authService', authService);
+  export async function load({ session }) {
+    if (typeof window == 'undefined') return;
 
+    const authService = AuthService.getInstance();
+    
+    authService.isAuthenticated().subscribe(isAuthed => {
+      session.authenticated = isAuthed;
+    });
 
-	//import { goto } from '$app/navigation';
-	//goto('/new/route');
-
+    authService.getAccessToken().subscribe(t => {
+      session.token = t;
+    });
+  }
 </script>
 
-<main>
-    <Nav />
-    <slot></slot>
+<script>
+  import '$lib/global.css';
+  import Nav from '$lib/components/Nav.svelte';
+  import Loading from '$lib/components/Loading.svelte';
+  import { needToLogin } from '$lib/stores/user';
+
+  const notError = true;
+</script>
+<Nav />
+{#if ($needToLogin || $needToLogin === null) && notError}
+  <Loading />
+{:else}
+<main class="container mx-auto p-12">
+  <slot />
 </main>
-
-<style lang="scss">
-	:root {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	}
-
-	main {
-		text-align: center;
-		padding: 1em;
-		margin: 0 auto;
-	}
-</style>
+{/if}

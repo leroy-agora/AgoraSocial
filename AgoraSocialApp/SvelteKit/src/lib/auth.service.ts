@@ -1,8 +1,8 @@
-import { User, UserManager, WebStorageStateStore } from 'oidc-client';
+import { User, UserManager } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 
-import { ApplicationPaths, ApplicationName } from './auth.constants';
+import { ApplicationPaths, ApplicationName } from '$lib/constants/auth';
 
 export type IAuthenticationResult =
   SuccessAuthenticationResult |
@@ -43,7 +43,7 @@ export class AuthService {
 
   private static _instance: AuthService;
 
-  private construction() {};
+  private construction() {}
 
   public static getInstance(): AuthService {
       return AuthService._instance || (AuthService._instance = new AuthService());
@@ -74,7 +74,7 @@ export class AuthService {
   //    Pop-Up blocker or the user has disabled PopUps.
   // 3) If the two methods above fail, we redirect the browser to the IdP to perform a traditional
   //    redirect flow.
-  public async signIn(state: any): Promise<IAuthenticationResult> {
+  public async signIn(state: Object): Promise<IAuthenticationResult> {
     await this.ensureUserManagerInitialized();
     let user: User = null;
     try {
@@ -131,6 +131,7 @@ export class AuthService {
       }
 
       await this.ensureUserManagerInitialized();
+      console.log(this.userManager);
       await this.userManager.signoutPopup(this.createArguments());
       this.userSubject.next(null);
       return this.success(state);
@@ -159,7 +160,14 @@ export class AuthService {
   }
 
   private createArguments(state?: any): any {
-    return { useReplaceToNavigate: true, data: state };
+    const retObj: any = {
+      useReplaceToNavigate: true, 
+      data: state
+    };
+    if (state?.provider) {
+      retObj.acr_values = `idp:${state.provider}`;
+    }
+    return retObj;
   }
 
   private error(message: string): IAuthenticationResult {
@@ -187,6 +195,7 @@ export class AuthService {
     const settings: any = await response.json();
     settings.automaticSilentRenew = true;
     settings.includeIdTokenInSilentRenew = true;
+
     this.userManager = new UserManager(settings);
 
     this.userManager.events.addUserSignedOut(async () => {
