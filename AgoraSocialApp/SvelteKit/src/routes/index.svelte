@@ -1,18 +1,15 @@
 <script context="module">
-  import { AuthService } from '$lib/auth.service';
-  import { take } from 'rxjs/operators';
   import { goto } from '$app/navigation';
+  import Loading from '$lib/components/Loading.svelte';
 
-  export async function load() {
+  export async function load({ session }) {
     if (typeof window == 'undefined') return;
-
-    const authService = AuthService.getInstance();
-
-    const isAuthed = await authService.isAuthenticated().pipe(take(1)).toPromise();
-    if (isAuthed) {
+  
+    if (session.authenticated) {
       goto('/app');
     } else {
       goto('/login');
     }
   }
 </script>
+<Loading />

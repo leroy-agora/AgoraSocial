@@ -20,7 +20,23 @@ module.exports = {
 		}
 	},
 	theme: {
-		extend: {}
+		extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: '100%'
+          }
+        },
+        sm: {
+          css: {
+            h1: {
+              fontWeight: 'normal',
+              fontSize: '2em'
+            }
+          }
+        }
+      }
+    }
 	},
 	variants: {
 		extend: {}
