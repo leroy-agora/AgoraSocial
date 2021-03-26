@@ -1,6 +1,19 @@
+<script context="module">
+  import { browser } from '$app/env';
+
+  export async function load({ session }) {
+    if (!browser || !session.authenticated) return {};
+  
+    return {
+      status: 302,
+      redirect: '/app'
+    };
+  }
+</script>
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page, session } from '$app/stores';
   import Nav from '$lib/components/Nav.svelte';
+  import Loading from '$lib/components/Loading.svelte';
   import { AuthService } from '$lib/auth.service';
   import * as providers from '$lib/constants/providers';
 
@@ -8,6 +21,9 @@
   // TODO remove hardcoded redirectUrl
 	const login = () => authService.signIn({ redirectUrl: '/app', provider: providers.GOOGLE });
 </script>
+{#if $session.authenticated === null}
+  <Loading />
+{:else}
 <Nav />
 <div class="absolute top-0 left-0 right-0 bottom-0 container mx-auto flex items-center justify-center text-center">
   <div class="prose prose-sm">
@@ -30,3 +46,4 @@
     </button>
   </div>
 </div>
+{/if}

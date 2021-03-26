@@ -1,10 +1,20 @@
 <script>
+  import { onMount } from 'svelte';
+  import { user, fetchCurrentUser } from '$lib/stores/user';
   import UserIcon from '$lib/components/icons/User.svelte';
+  import Loading from '$lib/components/Loading.svelte';
+
+  onMount(() => {
+    fetchCurrentUser();
+  });
 </script>
+{#if !$user}
+  <Loading />
+{:else}
 <div class="max-w-md mx-auto prose prose-sm">
   <div class="flex flex-col items-center">
     <UserIcon class="w-28" />
-    <h1>Welcome to Agora !</h1>
+    <h1>Welcome to Agora {$user.name}!</h1>
   </div>
   <div class="grid grid-cols-1 gap-4">
     <label class="block">
@@ -29,3 +39,4 @@
   </button>
   </div>
 </div>
+{/if}
