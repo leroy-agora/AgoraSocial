@@ -13,6 +13,7 @@
 		ApplicationPaths,
 		ReturnUrlType
 	} from '$lib/constants/auth';
+  import { browser } from '$app/env';
 
 	const message = new BehaviorSubject<string>(null);
 
@@ -20,7 +21,8 @@
 
 	export async function load({ page }) {
 		// SSR cannot handle OIDC
-		if (typeof window == 'undefined') return;
+		if (!browser) return {};
+
     let msg;
 		const action = page;
 

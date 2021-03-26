@@ -1,12 +1,15 @@
 <script context="module">
-  import { goto } from '$app/navigation';
+  import { browser } from '$app/env';
 
   export async function load({ session }) {
-    if (typeof window == 'undefined') return; 
-
-    if (!session.authenticated) {
-      goto('/login');
+    if (browser && !session.authenticated) {
+      return {
+        status: 302,
+        redirect: '/login'
+      };
     }
+
+    return {};
   }
 </script>
 <script>
