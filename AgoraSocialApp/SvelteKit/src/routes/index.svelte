@@ -2,8 +2,8 @@
   import { browser } from '$app/env';
   export async function load({ session }) {
     if (!browser) return {};
-    
-    if (!session.authenticated) {
+
+    if (session.authenticated === false) {
       return {
         status: 302,
         redirect: '/login'
