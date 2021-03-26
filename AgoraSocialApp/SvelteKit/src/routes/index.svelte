@@ -1,15 +1,17 @@
 <script context="module">
-  import { goto } from '$app/navigation';
-  import Loading from '$lib/components/Loading.svelte';
-
+  import { browser } from '$app/env';
   export async function load({ session }) {
-    if (typeof window == 'undefined') return;
-  
-    if (session.authenticated) {
-      goto('/app');
-    } else {
-      goto('/login');
-    }
+    if (!browser) return {};
+    
+    if (!session.authenticated) {
+      return {
+        status: 302,
+        redirect: '/login'
+      };
+    } 
+    return {
+      status: 302,
+      redirect: '/app'
+    };
   }
 </script>
-<Loading />

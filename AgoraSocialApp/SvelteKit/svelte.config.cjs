@@ -19,11 +19,6 @@ module.exports = {
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
     vite: {
-      resolve: {
-        alias: {
-          $lib: resolve('src/lib')
-        }
-      },
       server: {
         hmr: {
           protocol: 'ws'
