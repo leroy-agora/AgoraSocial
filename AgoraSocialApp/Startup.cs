@@ -1,6 +1,7 @@
+using AgoraSocialApp.Converters;
 using AgoraSocialApp.Data;
+using AgoraSocialApp.Filters;
 using AgoraSocialApp.Models;
-using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Raven.Client.Json.Serialization.NewtonsoftJson;
 using Raven.DependencyInjection;
 using Raven.Identity;
 
@@ -29,36 +31,63 @@ namespace AgoraSocialApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            //services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddRavenDbDocStore();
+            services.AddRavenDbDocStore(options =>
+            {
+                // workaround for https://github.com/JamesNK/Newtonsoft.Json/issues/1713 via https://github.com/dotnet/aspnetcore/issues/22620 and https://github.com/JudahGabriel/RavenDB.Identity/issues/16#issuecomment-526336542
+                // TODO: Check if this ever gets fixed... note: it might not
+                options.BeforeInitializeDocStore = store =>
+                {
+                    store.Conventions.Serialization = new NewtonsoftJsonSerializationConventions
+                    {
+                        CustomizeJsonSerializer = (serializer) =>
+                        {
+                            serializer.Converters.Add(new JsonClaimConverter());
+                            serializer.Converters.Add(new JsonClaimsPrincipalConverter());
+                            serializer.Converters.Add(new JsonClaimsIdentityConverter());
+                        }
+                    };
+                };
+            });
             services.AddRavenDbAsyncSession();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                //.AddRavenDbIdentityStores<ApplicationUser>();
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRavenDbIdentityStores<ApplicationUser, Raven.Identity.IdentityRole>();
+                //.AddEntityFrameworkStores<ApplicationDbContext>();
              
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddAspNetIdentity<ApplicationUser>()
+                //.AddOperationalStore<TContext>()
+                //.ConfigureReplacedServices()
+                .AddIdentityResources()
+                .AddApiResources()
+                .AddClients()
+                .AddSigningCredentials();
 
+
+            //.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt()
                 .AddGoogle(o =>
                 {
-                    //o.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    //o.SignInScheme = IdentityConstants.ExternalScheme;
 
                     IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
                     o.ClientId = googleAuthNSection["ClientId"];
                     o.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
+                //.AddExternalCookie();
 
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddMvcOptions(o => o.Filters.Add<RavenSaveChangesAsyncFilter>());
+
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

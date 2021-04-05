@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace AgoraSocialApp.Models
 {
-    //public class ApplicationUser : Raven.Identity.IdentityUser
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : Raven.Identity.IdentityUser
     {
-        //public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public string FullName => $"{FirstName} {LastName}".Trim();
 
     }
 }

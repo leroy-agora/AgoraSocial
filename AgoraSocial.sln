@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgoraSocial", "AgoraSocial\AgoraSocial.csproj", "{351E4294-9A79-4FD6-B68D-5B4FDDAB3974}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgoraSocialApp", "AgoraSocialApp\AgoraSocialApp.csproj", "{ECFCAB4B-10DF-464E-9EE2-08DD8916E831}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgoraSocialApp", "AgoraSocialApp\AgoraSocialApp.csproj", "{ECFCAB4B-10DF-464E-9EE2-08DD8916E831}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
