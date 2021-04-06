@@ -64,7 +64,7 @@ namespace AgoraSocialApp.Areas.Identity.Pages.Account
 
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
 
-            if (context.IdP is not null)
+            if (context?.IdP is not null)
             {
                 var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
                 var properties = _signInManager.ConfigureExternalAuthenticationProperties(context.IdP, redirectUrl);
