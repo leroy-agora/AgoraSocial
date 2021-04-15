@@ -2,6 +2,8 @@ using AgoraSocialApp.Converters;
 using AgoraSocialApp.Data;
 using AgoraSocialApp.Filters;
 using AgoraSocialApp.Models;
+using IdentityServer4.Contrib.RavenDB.Services;
+using IdentityServer4.Contrib.RavenDB.Stores;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,7 +38,6 @@ namespace AgoraSocialApp
             //        Configuration.GetConnectionString("DefaultConnection")));
 
             //services.AddDatabaseDeveloperPageExceptionFilter();
-
             services.AddRavenDbDocStore(options =>
             {
                 // workaround for https://github.com/JamesNK/Newtonsoft.Json/issues/1713 via https://github.com/dotnet/aspnetcore/issues/22620 and https://github.com/JudahGabriel/RavenDB.Identity/issues/16#issuecomment-526336542
@@ -66,7 +67,9 @@ namespace AgoraSocialApp
                 //.ConfigureReplacedServices()
                 .AddIdentityResources()
                 .AddApiResources()
-                .AddClients()
+                //.AddClients()
+                .AddClientStore<RavenDBClientStore>()
+                .AddCorsPolicyService<CorsPolicyService>()
                 .AddSigningCredentials();
 
 
