@@ -187,12 +187,16 @@ export class AuthService {
       return;
     }
 
-    const response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
-    if (!response.ok) {
-      throw new Error(`Could not load settings for '${ApplicationName}'`);
-    }
-
-    const settings: any = await response.json();
+    const settings = {
+      authority: "https://localhost:5001",
+      client_id: "AgoraSocialApp",
+      redirect_uri: "https://localhost:5001/authentication/login-callback",
+      post_logout_redirect_uri: "https://localhost:5001/authentication/logout-callback",
+      response_type: "code",
+      scope:"AgoraSocial AgoraSocialAppAPI openid profile",
+      automaticSilentRenew: true,
+      includeIdTokenInSilentRenew: true
+    };
     settings.automaticSilentRenew = true;
     settings.includeIdTokenInSilentRenew = true;
 
