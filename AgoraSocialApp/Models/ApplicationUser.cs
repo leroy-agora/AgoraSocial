@@ -8,6 +8,7 @@ namespace AgoraSocialApp.Models
 {
     public class ApplicationUser : Raven.Identity.IdentityUser
     {
+        public string Handle { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
