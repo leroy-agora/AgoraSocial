@@ -69,6 +69,7 @@ namespace AgoraSocialApp
                 .AddApiResources()
                 //.AddClients()
                 .AddClientStore<RavenDBClientStore>()
+                //.AddResourceStore<AgoraRavenDBResourceStore>()
                 .AddCorsPolicyService<CorsPolicyService>()
                 .AddSigningCredentials();
 
