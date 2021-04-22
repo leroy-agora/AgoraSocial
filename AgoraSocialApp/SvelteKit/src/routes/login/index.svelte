@@ -1,11 +1,9 @@
 <script context="module">
-  import { browser } from '$app/env';
-
-  export async function load({ session }) {
-    if (!browser || !session.authenticated) return {};
+  export function load({ session }) {
+    if (!session.authenticated) return {};
   
     return {
-      status: 302,
+      status: 307,
       redirect: '/app'
     };
   }

@@ -1,17 +1,20 @@
 <script context="module">
-  import { browser } from '$app/env';
-  export async function load({ session }) {
-    if (!browser) return {};
-
+  export function load({ session }) {
+    console.log('is this being called on the error');
     if (session.authenticated === false) {
       return {
-        status: 302,
+        status: 307,
         redirect: '/login'
       };
-    } 
+    }
+
     return {
-      status: 302,
+      status: 307,
       redirect: '/app'
     };
   }
 </script>
+<script>
+  import Loading from '$lib/components/Loading.svelte';
+</script>
+<Loading />
