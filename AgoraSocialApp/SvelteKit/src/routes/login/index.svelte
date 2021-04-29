@@ -1,27 +1,38 @@
 <script context="module">
-  import { browser } from '$app/env';
-
-  export async function load({ session }) {
-    if (!browser || !session.authenticated) return {};
-  
-    return {
-      status: 302,
-      redirect: '/app'
-    };
+  import { authGuard } from '$lib/stores/auth';
+  export function load() {
+    return authGuard(
+      {
+        status: 307,
+        redirect: '/app'
+      },
+      false
+    );
   }
 </script>
-<script lang="ts">
-  import { page, session } from '$app/stores';
+<script>
+  import { page } from '$app/stores';
   import Nav from '$lib/components/Nav.svelte';
   import Loading from '$lib/components/Loading.svelte';
   import { AuthService } from '$lib/auth.service';
   import * as providers from '$lib/constants/providers';
+import { goto } from '$app/navigation';
 
   const authService = AuthService.getInstance();
-  // TODO remove hardcoded redirectUrl
-	const login = () => authService.signIn({ redirectUrl: '/app', provider: providers.GOOGLE });
+  let loggingIn = false;
+
+	const login = async () => {
+    loggingIn = true;
+    // TODO: remove hardcoded returnUrl
+    const returnUrl = '/app';
+    const signIn = await authService.signIn({ returnUrl, provider: providers.GOOGLE });
+    
+    if (signIn.status === 0) {
+      goto(returnUrl);
+    }
+  };
 </script>
-{#if $session.authenticated === null}
+{#if loggingIn}
   <Loading />
 {:else}
 <Nav />

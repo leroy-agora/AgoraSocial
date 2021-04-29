@@ -1,13 +1,7 @@
 <script context="module">
-  import { browser } from '$app/env';
-
-  export async function load({ session }) {
-    if (!browser || session.authenticated) return {};
-    
-    return {
-      status: 302,
-      redirect: '/login'
-    };
+  import { authGuard } from '$lib/stores/auth';
+  export function load() {
+    return authGuard({});
   }
 </script>
 <script>

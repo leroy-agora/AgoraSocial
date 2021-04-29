@@ -1,16 +1,10 @@
 import { AuthService } from '$lib/auth.service';
-import { take } from 'rxjs/operators';
-import { writable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
 
-export const user = writable(null);
+const authService = AuthService.getInstance();
 
-export const fetchCurrentUser = async () => {
-  if (get(user) !== null) return;
+export const user = writable(null, set => {
+  const subscription = authService.getUser().subscribe(user => set(user));
 
-  const authService = AuthService.getInstance();
-
-  const currentUser = await authService.getUser().pipe(take(1)).toPromise();
-
-  user.set(currentUser);
-  return currentUser;
-};
+  return () => subscription.unsubscribe();
+});
