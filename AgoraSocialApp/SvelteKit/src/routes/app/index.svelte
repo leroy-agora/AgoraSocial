@@ -1,7 +1,7 @@
 <script>
   import { conversations } from '$lib/stores/conversations';
-  import { session } from '$app/stores';
-  import { user, fetchCurrentUser } from '$lib/stores/user';
+  import { token } from '$lib/stores/auth';
+  import { user } from '$lib/stores/user';
   import { AgoraWeather } from '$lib/constants/agora-api';
   import { get } from '$lib/api';
   import { onMount } from 'svelte';
@@ -10,9 +10,8 @@
   let forecast;
 
   onMount(() => {
-    fetchCurrentUser();
     forecast = async () => {
-      const weather= await get(AgoraWeather, $session.token);
+      const weather= await get(AgoraWeather, $token);
       $conversations.data = weather.map(w => w.summary);
     };
   });

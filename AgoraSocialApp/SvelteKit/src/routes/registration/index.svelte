@@ -1,12 +1,7 @@
 <script>
-  import { onMount } from 'svelte';
-  import { user, fetchCurrentUser } from '$lib/stores/user';
+  import { user } from '$lib/stores/user';
   import UserIcon from '$lib/components/icons/User.svelte';
   import Loading from '$lib/components/Loading.svelte';
-
-  onMount(() => {
-    fetchCurrentUser();
-  });
 </script>
 {#if !$user}
   <Loading />

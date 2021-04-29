@@ -13,19 +13,14 @@
 		ApplicationPaths,
 		ReturnUrlType
 	} from '$lib/constants/auth';
-  import { browser } from '$app/env';
 
 	const message = new BehaviorSubject<string>(null);
 
 	const authService = AuthService.getInstance();
 
 	export async function load({ page }) {
-		// SSR cannot handle OIDC
-		if (!browser) return {};
-
     let msg;
 		const action = page;
-
 		switch (action.path) {
 			case LoginActions.Login:
 				await login(getReturnUrl());
@@ -65,6 +60,7 @@
 			default:
 				throw new Error(`Invalid action '${action}'`);
 		}
+    return {};
 	}
 
 	async function login(returnUrl: string): Promise<void> {
@@ -207,8 +203,4 @@
 		[ReturnUrlType]: string;
 	}
 </script>
-{#if message.getValue()}
-  {message.getValue()}
-{:else}
-  <Loading />
-{/if}
+<Loading />
