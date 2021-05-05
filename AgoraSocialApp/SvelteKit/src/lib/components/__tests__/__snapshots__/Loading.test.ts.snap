@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading Component should render 1`] = `
+<body>
+  <div>
+    <div
+      class="fixed h-screen w-screen top-0 left-0 flex items-center justify-center"
+    >
+      <div
+        class="animate-pulse text-purple-600 text-9xl"
+      >
+        ♦
+      </div>
+    </div>
+  </div>
+</body>
+`;
