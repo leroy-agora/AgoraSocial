@@ -1,6 +1,6 @@
 export default {
   preset: 'ts-jest',
-  testEnvironment: "jsdom",
+  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.svelte$': 'jest-transform-svelte'
   },
