@@ -12,7 +12,6 @@
     </a>
     {#if signout}
     <ul class="sm:self-center">
-
       <li class="sm:inline-block">
         <button on:click={() => authService.signOut({})} class="text-purple-700 hover:text-purple-500">
           Sign Out

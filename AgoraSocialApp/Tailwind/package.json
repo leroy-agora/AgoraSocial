@@ -1,0 +1,20 @@
+{
+  "name": "agora-tailwindcss",
+  "version": "1.0.0",
+  "description": "css based on tailwindcss",
+  "scripts": {
+    "build": "npx tailwind build ./src/site.css -o ../wwwroot/identity/css/site.css",
+    "dev": "npx postcss ./src/site.css -o ../wwwroot/identity/css/site.css -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/forms": "^0.3.3",
+    "@tailwindcss/typography": "^0.4.1",
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.0",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.1.4"
+  }
+}
