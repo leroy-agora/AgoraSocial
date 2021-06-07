@@ -74,4 +74,14 @@
     </ItemGroup>
   </Target>
 
+  <ItemGroup>
+    <UpToDateCheckBuilt Include="wwwroot/identity/css/site.css" Set="Tailwind" />
+    <UpToDateCheckBuilt Include="Tailwind/postcss.config.js" Set="Tailwind" />
+    <UpToDateCheckBuilt Include="Tailwind/tailwind.config.js" Set="Tailwind" />
+  </ItemGroup>
+
+  <Target Name="agora-tailwindcss" BeforeTargets="Build">
+    <Exec WorkingDirectory="Tailwind" Command="npm i" />
+    <Exec WorkingDirectory="Tailwind" Command="npm run build" />
+  </Target>
 </Project>

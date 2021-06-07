@@ -8,19 +8,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AgoraSocialApp</title>
-    <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Identity/css/site.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light navbar-toggleable-sm bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" href="~/">AgoraSocialApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+    <header class="fixed w-full h-12 bg-white">
+        <nav class="container mx-auto sm:flex justify-between items-center">
+            <a href="/">
+              <img class="h-12" src="/images/logo.png" alt="Agora Logo" />
+            </a>
+            <ul class="sm:self-center">
                     @{
                         var result = Engine.FindView(ViewContext, "_LoginPartial", isMainPage: false);
                     }
@@ -34,23 +30,19 @@
                             "usually located at '/Pages/_LoginPartial' or at '/Views/Shared/_LoginPartial' to work. Based on your configuration " +
                             $"we have looked at it in the following locations: {System.Environment.NewLine}{string.Join(System.Environment.NewLine, result.SearchedLocations)}.");
                     }
-                </div>
-            </div>
+            </ul>
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="footer border-top text-muted">
-        <div class="container">
-            &copy; 2020 - AgoraSocialApp - <a asp-area="" asp-page="Privacy">Privacy</a>
-        </div>
+    <main class="container mx-auto pt-12 pb-6">
+        @RenderBody()
+    </main>
+    <footer class="container mx-auto prose prose-sm">
+        <p class="text-center">
+            &copy; 2021 - Agora - <a asp-area="" asp-page="Privacy">Privacy</a>
+        </p>
     </footer>
     <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Identity/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
