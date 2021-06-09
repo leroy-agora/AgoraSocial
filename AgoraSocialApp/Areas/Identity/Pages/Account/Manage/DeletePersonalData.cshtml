@@ -15,13 +15,13 @@
 
 <div>
     <form id="delete-user" method="post" class="form-group">
-        <div asp-validation-summary="All" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-red-700"></div>
         @if (Model.RequirePassword)
         {
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <span asp-validation-for="Input.Password" class="text-red-700"></span>
             </div>
         }
         <button class="btn btn-danger" type="submit">Delete data and close my account</button>

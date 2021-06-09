@@ -4,35 +4,29 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<div class="max-w-md mx-auto">
-  <div class="flex flex-col items-center">
-    <h1>@ViewData["Title"]</h1>
-  </div>
-      <h4>Use an existing account to log in.</h4>
+<div class="max-w-md mx-auto prose prose-sm">
+  <div class="grid grid-cols-1 gap-4">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+      <h4 class="text-center">Use an existing account to log in.</h4>
       @{
           if ((Model.ExternalLogins?.Count ?? 0) == 0)
           {
-              <div>
-                  <p>
-                      There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                      for details on setting up this ASP.NET application to support logging in via external services.
-                  </p>
-              </div>
+              <p>
+                  There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                  for details on setting up this ASP.NET application to support logging in via external services.
+              </p>
           }
           else
           {
-              <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                  <div>
-                      <p>
+              <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                           @foreach (var provider in Model.ExternalLogins)
                           {
-                              <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                              <button type="submit" class="btn min-w-full mt-6" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                           }
-                      </p>
-                  </div>
               </form>
           }
       }
+    </div>
 </div>
 
 @section Scripts {

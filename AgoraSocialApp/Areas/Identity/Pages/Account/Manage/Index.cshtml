@@ -7,10 +7,9 @@
 <div class="max-w-md mx-auto prose prose-sm">
   <div class="flex flex-col items-center">
     <h4>@ViewData["Title"]</h4>
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
   </div>
-  <partial name="_StatusMessage" model="Model.StatusMessage" />
   <form id="profile-form" method="post" class="grid grid-cols-1 gap-4">
-      <div asp-validation-summary="ModelOnly" class="text-red-700"></div>
       <div class="block">
           <label asp-for="Username"></label>
           <input asp-for="Username" class="input" disabled />
@@ -20,6 +19,7 @@
           <input asp-for="Input.PhoneNumber" class="input" />
           <span asp-validation-for="Input.PhoneNumber" class="text-red-700"></span>
       </div>
+      <div asp-validation-summary="ModelOnly" class="text-red-700"></div>
       <button id="update-profile-button" type="submit" class="btn">Save</button>
   </form>
     </div>

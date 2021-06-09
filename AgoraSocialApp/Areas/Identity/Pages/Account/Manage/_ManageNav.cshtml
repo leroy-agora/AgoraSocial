@@ -3,13 +3,13 @@
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
 <div class="max-w-md mx-auto">
-  <ul class="list-none flex font-sans text-sm text-gray-700">
-    <li class="rounded-full py-2 px-4 mr-6 bg-gray-300"><a class="@ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="rounded-full py-2 px-4 mr-6 bg-gray-300"><a class="@ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
+  <ul class="list-none flex justify-center font-sans text-sm text-gray-700">
+    <li class="rounded-full py-2 px-4 mr-6 bg-gray-200"><a class="@ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+    <li class="rounded-full py-2 px-4 mr-6 bg-gray-200"><a class="@ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
     @if (hasExternalLogins)
     {
-        <li id="external-logins" class="rounded-full py-2 px-4 mr-6 bg-gray-300"><a id="external-login" class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">Logins</a></li>
+        <li id="external-logins" class="rounded-full py-2 px-4 mr-6 bg-gray-200"><a id="external-login" class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">Logins</a></li>
     }
-    <li class="rounded-full py-2 px-4 bg-gray-300"><a class=" @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal Data</a></li>
+    <li class="rounded-full py-2 px-4 bg-gray-200"><a class=" @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal Data</a></li>
   </ul>
 </div>
