@@ -5,7 +5,7 @@
 
   export let signout = false;
 </script>
-<header class="fixed w-full h-12 bg-white">
+<header class="fixed w-full h-12 ph-12 bg-white">
   <nav class="container mx-auto sm:flex justify-between">
     <a href="/">
       <img class="h-12" src="/images/logo.png" alt="Agora Logo" />

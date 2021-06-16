@@ -8,6 +8,6 @@
   import Nav from '$lib/components/Nav.svelte';
 </script>
 <Nav signout />
-<main class="container mx-auto p-12">
+<main class="container mx-auto pt-12">
   <slot />
 </main>
